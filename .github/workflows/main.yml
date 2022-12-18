@@ -6,13 +6,16 @@ on:
 jobs:
   create-file:
     runs-on: ubuntu-latest
+    outputs:
+      content: ${{ steps.step1.outputs.LINE }}
     steps:
       - name: generate file
+        id: step1
         env:
           MYVAR: quan 
         run: |
           touch printfile
-          echo "My name is $MYVAR." >> printfile
+          echo "LINE=My name is $MYVAR." >> $GITHUB_OUTPUT
   
   print:
     runs-on: ubuntu-latest
@@ -20,4 +23,4 @@ jobs:
     steps:
       - name: print content of printfile
         run: |
-          cat printfile
+          echo ${{needs.create-file.outputs.content}}
