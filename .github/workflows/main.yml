@@ -1,0 +1,23 @@
+name: Test jobs functions
+
+on:
+  push
+  
+jobs:
+  create-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: generate file
+        env:
+          MYVAR: quan 
+        run: |
+          touch printfile
+          echo "My name is $MYVAR." >> printfile
+  
+  print:
+    runs-on: ubuntu-latest
+    needs: create-file
+    steps:
+      - name: print content of printfile
+        run: |
+          cat printfile
